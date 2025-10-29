@@ -114,7 +114,9 @@ composer --version
 
 ## 🚀 Instalación del Proyecto
 
-### 1. Clonar el repositorio
+### Opción A: Usar Proyecto Existente (Recomendado para la exposición)
+
+#### 1. Clonar el repositorio
 
 ```bash
 # Clonar desde GitHub
@@ -122,6 +124,24 @@ git clone https://github.com/AxelMQ/laminas-exposicion-inf513.git
 
 # Navegar al directorio
 cd laminas-exposicion-inf513
+```
+
+### Opción B: Crear Proyecto Laminas desde Cero
+
+Si quieres crear tu propio proyecto Laminas Framework desde cero, consulta la guía detallada:
+
+**📖 Ver `CREAR_PROYECTO_LAMINAS.md`** - Guía completa para crear proyectos Laminas desde cero
+
+#### Comandos rápidos:
+```bash
+# Crear proyecto con skeleton
+composer create-project laminas/laminas-mvc-skeleton mi-proyecto
+
+# Navegar al proyecto
+cd mi-proyecto
+
+# Iniciar servidor
+php -S localhost:8080 -t public
 ```
 
 ### 2. Instalar dependencias

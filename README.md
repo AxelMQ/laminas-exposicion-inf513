@@ -106,6 +106,7 @@ laminas-exposicion-inf513/
 ### 📋 Guías de Instalación
 
 - **📖 Guía completa:** Ver `GUIA_INSTALACION_COMPLETA.md` (Recomendado)
+- **🆕 Crear proyecto desde cero:** Ver `CREAR_PROYECTO_LAMINAS.md`
 - **🪟 Windows:** Ver `COMANDOS_POWERSHELL.md`
 - **🐧 Linux/Fedora:** Ver `COMANDOS_LINUX_FEDORA.md`
 - **⚡ Instrucciones rápidas:** Ver `INSTRUCCIONES_EJECUCION.md`
