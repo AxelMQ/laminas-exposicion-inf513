@@ -1,0 +1,29 @@
+{
+    "1": {
+        "id": 1,
+        "nombre": "Juan Pérez",
+        "carrera": "Ingeniería de Sistemas",
+        "semestre": "8vo",
+        "email": "juan.perez@email.com",
+        "telefono": "+591 7 12345678",
+        "ci": "12345678"
+    },
+    "2": {
+        "id": 2,
+        "nombre": "María García",
+        "carrera": "Ingeniería de Sistemas",
+        "semestre": "6to",
+        "email": "maria.garcia@email.com",
+        "telefono": "+591 7 87654321",
+        "ci": "87654321"
+    },
+    "3": {
+        "id": 3,
+        "nombre": "Carlos López",
+        "carrera": "Ingeniería de Sistemas",
+        "semestre": "10mo",
+        "email": "carlos.lopez@email.com",
+        "telefono": "+591 7 11223344",
+        "ci": "11223344"
+    }
+}
