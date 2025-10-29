@@ -1,71 +1,601 @@
 <?php
 $this->headTitle($titulo);
 ?>
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white text-center">
-                <h1><i class="fas fa-graduation-cap"></i> <?= $this->escapeHtml($titulo) ?></h1>
-                <p class="mb-0"><?= $this->escapeHtml($subtitulo) ?></p>
-            </div>
-            <div class="card-body text-center">
-                <div class="mb-4">
-                    <i class="fas fa-code fa-3x text-primary mb-3"></i>
-                    <h3><?= $this->escapeHtml($mensaje) ?></h3>
+<style>
+    .hero-section {
+        animation: fadeInUp 0.8s ease-out;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .hero-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        position: relative;
+    }
+    
+    .hero-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .hero-card:hover::before {
+        transform: translateX(100%);
+    }
+    
+    .hero-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    }
+    
+    .hero-header {
+        background: linear-gradient(135deg, #0d6efd 0%, #0056b3 100%);
+        padding: 3rem 2rem;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+    
+    .hero-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20px;
+        background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), transparent);
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes titleGlow {
+        from {
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        to {
+            text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.3);
+        }
+    }
+    
+    .hero-title i {
+        font-size: 3rem;
+        animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        margin: 0;
+        animation: fadeIn 1s ease-out 0.5s both;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 0.95;
+            transform: translateY(0);
+        }
+    }
+    
+    .hero-body {
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .hero-icon {
+        font-size: 4rem;
+        color: #0d6efd;
+        margin-bottom: 1.5rem;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+    
+    .hero-message {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        animation: slideInUp 0.8s ease-out 0.3s both;
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .feature-cards {
+        animation: slideInUp 0.8s ease-out 0.6s both;
+    }
+    
+    .feature-card {
+        height: 100%;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        position: relative;
+        background: white;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #28a745, #20c997);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .feature-card.success::before {
+        background: linear-gradient(90deg, #28a745, #20c997);
+    }
+    
+    .feature-card.info::before {
+        background: linear-gradient(90deg, #17a2b8, #6f42c1);
+    }
+    
+    .feature-card-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .feature-card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #2c3e50;
+    }
+    
+    .feature-card-title i {
+        font-size: 1.5rem;
+        animation: pulse 2s infinite;
+    }
+    
+    .feature-card-body {
+        padding: 1.5rem;
+    }
+    
+    .feature-card-text {
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .feature-btn {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .feature-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .feature-btn:hover::before {
+        left: 100%;
+    }
+    
+    .feature-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .characteristics-section {
+        animation: slideInUp 0.8s ease-out 0.9s both;
+        margin-top: 3rem;
+    }
+    
+    .characteristics-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        text-align: center;
+        position: relative;
+    }
+    
+    .characteristics-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #0d6efd, #6f42c1);
+        border-radius: 2px;
+    }
+    
+    .characteristics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .characteristic-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+    }
+    
+    .characteristic-item:nth-child(1) { animation-delay: 0.1s; }
+    .characteristic-item:nth-child(2) { animation-delay: 0.2s; }
+    .characteristic-item:nth-child(3) { animation-delay: 0.3s; }
+    .characteristic-item:nth-child(4) { animation-delay: 0.4s; }
+    .characteristic-item:nth-child(5) { animation-delay: 0.5s; }
+    .characteristic-item:nth-child(6) { animation-delay: 0.6s; }
+    
+    .characteristic-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .characteristic-item i {
+        font-size: 1.2rem;
+        color: #28a745;
+        animation: checkPulse 2s infinite;
+    }
+    
+    @keyframes checkPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+    }
+    
+    .characteristic-item span {
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .footer-section {
+        animation: fadeIn 1s ease-out 1.2s both;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+    }
+    
+    .footer-text {
+        margin: 0;
+        font-size: 1.1rem;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .footer-text i {
+        color: #0d6efd;
+        animation: pulse 2s infinite;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .hero-title i {
+            font-size: 2.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+        
+        .hero-body {
+            padding: 2rem 1rem;
+        }
+        
+        .characteristics-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .feature-card {
+            margin-bottom: 1.5rem;
+        }
+    }
+    
+    /* Efectos de partículas (opcional) */
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        animation: floatParticle 6s infinite linear;
+    }
+    
+    @keyframes floatParticle {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+</style>
+
+<div class="hero-section">
+        <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="card hero-card">
+                <!-- Header mejorado -->
+                <div class="hero-header">
+                    <div class="particles" id="particles"></div>
+                    <h1 class="hero-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <?= $this->escapeHtml($titulo) ?>
+                    </h1>
+                    <p class="hero-subtitle"><?= $this->escapeHtml($subtitulo) ?></p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="card border-success">
-                            <div class="card-body">
-                                <h5 class="card-title text-success">
-                                    <i class="fas fa-users"></i> Gestión de Estudiantes
-                                </h5>
-                                <p class="card-text">Administra la información de los estudiantes</p>
-                                <a href="/estudiante" class="btn btn-success">
-                                    <i class="fas fa-arrow-right"></i> Ir a Estudiantes
-                                </a>
+                <!-- Body mejorado -->
+                <div class="hero-body">
+                    <!-- Icono y mensaje principal -->
+                    <div class="text-center mb-5">
+                        <i class="fas fa-code hero-icon"></i>
+                        <h3 class="hero-message"><?= $this->escapeHtml($mensaje) ?></h3>
+                        </div>
+                        
+                    <!-- Cards de características -->
+                    <div class="feature-cards">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card feature-card success">
+                                    <div class="feature-card-header">
+                                        <h5 class="feature-card-title">
+                                            <i class="fas fa-users"></i>
+                                            Gestión de Estudiantes
+                                        </h5>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <p class="feature-card-text">
+                                            Administra la información de los estudiantes de manera eficiente y segura
+                                        </p>
+                                        <a href="/estudiante" class="btn btn-success feature-btn">
+                                            <i class="fas fa-arrow-right"></i>
+                                            Ir a Estudiantes
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card feature-card info">
+                                    <div class="feature-card-header">
+                                        <h5 class="feature-card-title">
+                                            <i class="fas fa-info-circle"></i>
+                                            Información del Sistema
+                                        </h5>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <p class="feature-card-text">
+                                            Detalles técnicos del framework y configuración del servidor
+                                        </p>
+                                        <a href="/info" class="btn btn-info feature-btn">
+                                            <i class="fas fa-arrow-right"></i>
+                                            Ver Información
+                                        </a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <!-- Características del sistema -->
+                    <div class="characteristics-section">
+                        <h5 class="characteristics-title">
+                            <i class="fas fa-star"></i>
+                            Características del Sistema
+                        </h5>
+                        <div class="characteristics-grid">
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Arquitectura MVC</span>
+                            </div>
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Formularios con validación</span>
+                            </div>
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>CRUD completo</span>
+                            </div>
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Búsqueda y filtros</span>
+                                </div>
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Interfaz responsive</span>
+                                </div>
+                            <div class="characteristic-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Laminas Framework</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card border-info">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">
-                                    <i class="fas fa-info-circle"></i> Información del Sistema
-                                </h5>
-                                <p class="card-text">Detalles técnicos del framework</p>
-                                <a href="/info" class="btn btn-info">
-                                    <i class="fas fa-arrow-right"></i> Ver Info
-                                </a>
-                            </div>
-                        </div>
+                    
+                    <!-- Footer mejorado -->
+                    <div class="footer-section">
+                        <p class="footer-text">
+                            <i class="fas fa-code"></i>
+                            Desarrollado con Laminas Framework para INF513-SC
+                        </p>
                     </div>
                 </div>
-                
-                <div class="mt-4">
-                    <h5>Características del Sistema:</h5>
-                    <div class="row text-start">
-                        <div class="col-md-6">
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success"></i> Arquitectura MVC</li>
-                                <li><i class="fas fa-check text-success"></i> Formularios con validación</li>
-                                <li><i class="fas fa-check text-success"></i> CRUD completo</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success"></i> Búsqueda y filtros</li>
-                                <li><i class="fas fa-check text-success"></i> Interfaz responsive</li>
-                                <li><i class="fas fa-check text-success"></i> Laminas Framework</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer text-center text-muted">
-                <small>Desarrollado con Laminas Framework para INF513-SC</small>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Efecto de partículas
+    document.addEventListener('DOMContentLoaded', function() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    });
+    
+    // Efecto de hover mejorado en cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.feature-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    });
+    
+    // Animación de entrada escalonada
+    document.addEventListener('DOMContentLoaded', function() {
+        const items = document.querySelectorAll('.characteristic-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        });
+        
+        items.forEach(item => {
+            item.style.animationPlayState = 'paused';
+            observer.observe(item);
+        });
+    });
+</script>

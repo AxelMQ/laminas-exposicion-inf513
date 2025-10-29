@@ -1,131 +1,465 @@
 <?php
 $this->headTitle('Información del Sistema');
 ?>
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <div class="card shadow">
-            <div class="card-header bg-info text-white text-center">
-                <h1><i class="fas fa-info-circle"></i> Información del Sistema</h1>
-                <p class="mb-0">Detalles técnicos del proyecto Laminas Framework</p>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-server"></i> Información del Servidor</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>PHP Version:</span>
-                                <span class="badge bg-primary"><?= $this->escapeHtml($php_version) ?></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Laminas Version:</span>
-                                <span class="badge bg-success"><?= $this->escapeHtml($laminas_version) ?></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Sistema Operativo:</span>
-                                <span class="badge bg-info"><?= $this->escapeHtml($sistema_operativo) ?></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Arquitectura:</span>
-                                <span class="badge bg-secondary"><?= $this->escapeHtml($arquitectura) ?></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Servidor Web:</span>
-                                <span class="badge bg-warning"><?= $this->escapeHtml($servidor_web) ?></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Framework:</span>
-                                <span class="badge bg-dark"><?= $this->escapeHtml($framework) ?></span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-cogs"></i> Características del Framework</h5>
-                        <ul class="list-group list-group-flush">
-                            <?php foreach ($caracteristicas as $caracteristica): ?>
-                            <li class="list-group-item">
-                                <i class="fas fa-check text-success"></i> 
-                                <?= $this->escapeHtml($caracteristica) ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
+<style>
+    .info-page {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .info-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    }
+    
+    .info-header {
+        background: linear-gradient(135deg, #0d6efd 0%, #0056b3 100%);
+        padding: 2rem 1.5rem;
+        color: white;
+        text-align: center;
+    }
+    
+    .info-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+    
+    .info-header h1 i {
+        font-size: 2.2rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    .info-header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        margin: 0;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .section-title i {
+        color: #0d6efd;
+        font-size: 1.4rem;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.2s ease;
+        background: white;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-item:hover {
+        background: #f8f9fa;
+        padding-left: 1.5rem;
+    }
+    
+    .info-item-label {
+        font-weight: 500;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .info-item-label i {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .info-item-value {
+        font-weight: 600;
+    }
+    
+    .badge-custom {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .feature-item {
+        padding: 1rem 1.25rem;
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.2s ease;
+        background: white;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .feature-item:last-child {
+        border-bottom: none;
+    }
+    
+    .feature-item:hover {
+        background: #f8f9fa;
+        padding-left: 1.5rem;
+    }
+    
+    .feature-item i {
+        color: #198754;
+        font-size: 1.1rem;
+        animation: checkPulse 2s infinite;
+    }
+    
+    @keyframes checkPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    .feature-item span {
+        color: #495057;
+        font-weight: 500;
+    }
+    
+    .mvc-card {
+        height: 100%;
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .mvc-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+    
+    .mvc-card-header {
+        padding: 1.25rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .mvc-card-body {
+        padding: 1.5rem;
+        background: #f8f9fa;
+    }
+    
+    .mvc-card-body p {
+        color: #6c757d;
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .stat-card.secondary {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .stat-card.success {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+    
+    .back-button {
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .back-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    }
+    
+    @media (max-width: 768px) {
+        .info-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .info-header p {
+            font-size: 0.95rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="info-page">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-lg info-card">
+                <!-- Header mejorado -->
+                <div class="info-header">
+                    <h1>
+                        <i class="fas fa-server"></i>
+                        Información del Sistema
+                    </h1>
+                    <p>Detalles técnicos del proyecto Laminas Framework</p>
                 </div>
                 
-                <div class="mt-4">
-                    <h5><i class="fas fa-info-circle"></i> Información Técnica Adicional</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Directorio Actual:</span>
-                                    <small class="text-muted"><?= $this->escapeHtml($directorio_actual) ?></small>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Límite de Memoria:</span>
-                                    <span class="badge bg-info"><?= $this->escapeHtml($memoria_limit) ?></span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Tiempo Máximo de Ejecución:</span>
-                                    <span class="badge bg-warning"><?= $this->escapeHtml($max_execution_time) ?>s</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Servidor Completo:</span>
-                                    <small class="text-muted"><?= $this->escapeHtml($servidor_completo) ?></small>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-4">
-                    <h5><i class="fas fa-architecture"></i> Arquitectura del Proyecto</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card border-primary">
-                                <div class="card-header bg-primary text-white">
-                                    <h6 class="mb-0"><i class="fas fa-eye"></i> Vista (View)</h6>
+                <div class="card-body p-4">
+                    <!-- Información del Servidor -->
+                    <div class="mb-5">
+                        <h5 class="section-title">
+                            <i class="fas fa-server"></i>
+                            Información del Servidor
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-0">
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-code"></i>
+                                                PHP Version
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-primary badge-custom"><?= $this->escapeHtml($php_version) ?></span>
+                                            </span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-cube"></i>
+                                                Laminas Version
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-success badge-custom"><?= $this->escapeHtml($laminas_version) ?></span>
+                                            </span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-desktop"></i>
+                                                Sistema Operativo
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-info badge-custom"><?= $this->escapeHtml($sistema_operativo) ?></span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">Templates HTML con Bootstrap para la interfaz de usuario</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-0">
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-microchip"></i>
+                                                Arquitectura
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-secondary badge-custom"><?= $this->escapeHtml($arquitectura) ?></span>
+                                            </span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-globe"></i>
+                                                Servidor Web
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-warning badge-custom"><?= $this->escapeHtml($servidor_web) ?></span>
+                                            </span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-item-label">
+                                                <i class="fas fa-layer-group"></i>
+                                                Framework
+                                            </span>
+                                            <span class="info-item-value">
+                                                <span class="badge bg-dark badge-custom"><?= $this->escapeHtml($framework) ?></span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h6 class="mb-0"><i class="fas fa-cogs"></i> Controlador (Controller)</h6>
+                    </div>
+                    
+                    <!-- Características del Framework -->
+                    <div class="mb-5">
+                        <h5 class="section-title">
+                            <i class="fas fa-star"></i>
+                            Características del Framework
+                        </h5>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-0">
+                                <?php foreach ($caracteristicas as $caracteristica): ?>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span><?= $this->escapeHtml($caracteristica) ?></span>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">Lógica de negocio y manejo de peticiones HTTP</p>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card border-info">
-                                <div class="card-header bg-info text-white">
-                                    <h6 class="mb-0"><i class="fas fa-database"></i> Modelo (Model)</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">Acceso a datos y lógica de persistencia</p>
+                    </div>
+                    
+                    <!-- Información Técnica Adicional -->
+                    <div class="mb-5">
+                        <h5 class="section-title">
+                            <i class="fas fa-cog"></i>
+                            Información Técnica Adicional
+                        </h5>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Memoria</div>
+                                <div class="stat-value"><?= $this->escapeHtml($memoria_limit) ?></div>
+                            </div>
+                            <div class="stat-card secondary">
+                                <div class="stat-label">Tiempo Máx</div>
+                                <div class="stat-value"><?= $this->escapeHtml($max_execution_time) ?>s</div>
+                            </div>
+                            <div class="stat-card success">
+                                <div class="stat-label">Directorio</div>
+                                <div class="stat-value" style="font-size: 0.9rem; word-break: break-all;">
+                                    <?= $this->escapeHtml(basename($directorio_actual)) ?>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Arquitectura del Proyecto -->
+                    <div class="mb-4">
+                        <h5 class="section-title">
+                            <i class="fas fa-sitemap"></i>
+                            Arquitectura del Proyecto
+                        </h5>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card mvc-card border-primary">
+                                    <div class="mvc-card-header bg-primary text-white">
+                                        <i class="fas fa-eye"></i>
+                                        Vista (View)
+                                    </div>
+                                    <div class="mvc-card-body">
+                                        <p>Templates HTML con Bootstrap para la interfaz de usuario</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mvc-card border-success">
+                                    <div class="mvc-card-header bg-success text-white">
+                                        <i class="fas fa-cogs"></i>
+                                        Controlador (Controller)
+                                    </div>
+                                    <div class="mvc-card-body">
+                                        <p>Lógica de negocio y manejo de peticiones HTTP</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mvc-card border-info">
+                                    <div class="mvc-card-header bg-info text-white">
+                                        <i class="fas fa-database"></i>
+                                        Modelo (Model)
+                                    </div>
+                                    <div class="mvc-card-body">
+                                        <p>Acceso a datos y lógica de persistencia</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón de regreso -->
+                    <div class="text-center mt-5">
+                        <a href="/" class="btn btn-primary btn-lg back-button">
+                            <i class="fas fa-home"></i>
+                            Volver al Inicio
+                        </a>
+                    </div>
                 </div>
                 
-                <div class="mt-4 text-center">
-                    <a href="/" class="btn btn-primary">
-                        <i class="fas fa-home"></i> Volver al Inicio
-                    </a>
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted">
+                        <i class="fas fa-graduation-cap"></i>
+                        Sistema desarrollado para la exposición de INF513-SC
+                    </small>
                 </div>
-            </div>
-            <div class="card-footer text-center text-muted">
-                <small>Sistema desarrollado para la exposición de INF513-SC</small>
             </div>
         </div>
     </div>
