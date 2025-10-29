@@ -8,30 +8,270 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <?= $this->headLink() ?>
     <?= $this->headStyle() ?>
+    <style>
+        /* Estilos personalizados para mejor UX */
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+        }
+
+        /* Navbar más compacto */
+        .navbar {
+            background: var(--gradient-primary) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 0.5rem 0; /* Reducido de 1rem a 0.5rem */
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.2rem; /* Reducido de 1.3rem */
+            transition: transform 0.2s ease; /* Animación más rápida */
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.03); /* Reducido de 1.05 */
+        }
+
+        .navbar-brand i {
+            margin-right: 6px; /* Reducido de 8px */
+            font-size: 1.2rem; /* Reducido de 1.4rem */
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 0.4rem 0.8rem !important; /* Reducido padding */
+            margin: 0 0.1rem; /* Reducido margen */
+            border-radius: 6px; /* Reducido de 8px */
+            transition: all 0.2s ease; /* Animación más rápida */
+            position: relative;
+            font-size: 0.95rem; /* Texto ligeramente más pequeño */
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-1px); /* Reducido de -2px */
+        }
+
+        .nav-link.active {
+            background-color: rgba(255,255,255,0.25);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            margin-right: 4px; /* Reducido de 6px */
+            font-size: 0.9rem; /* Iconos más pequeños */
+        }
+
+        /* Contenedor principal más compacto */
+        .container {
+            flex: 1;
+            padding-top: 1.5rem; /* Reducido de 2rem */
+            padding-bottom: 1.5rem; /* Reducido de 2rem */
+        }
+
+        /* Footer más compacto */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            margin-top: auto;
+            padding: 1.5rem 0; /* Reducido de 2rem */
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+
+        footer .container {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        footer small {
+            font-size: 0.85rem; /* Reducido de 0.9rem */
+            opacity: 0.9;
+        }
+
+        /* Animaciones más suaves y rápidas */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px); /* Reducido de 20px */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container > * {
+            animation: fadeIn 0.4s ease-out; /* Reducido de 0.5s */
+        }
+
+        /* Mejoras de responsive más compactas */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.4rem 0; /* Más compacto en móvil */
+            }
+
+            .navbar-brand {
+                font-size: 1rem; /* Reducido de 1.1rem */
+            }
+
+            .nav-link {
+                padding: 0.6rem 0.8rem !important; /* Ajustado para móvil */
+                margin: 0.15rem 0; /* Reducido */
+            }
+
+            .container {
+                padding-top: 1rem; /* Mantenido */
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Botón de scroll to top más pequeño */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 25px; /* Reducido de 30px */
+            right: 25px; /* Reducido de 30px */
+            background: var(--gradient-primary);
+            color: white;
+            width: 45px; /* Reducido de 50px */
+            height: 45px; /* Reducido de 50px */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease; /* Animación más rápida */
+            z-index: 1000;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.3); /* Reducido */
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px); /* Reducido de -5px */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Reducido */
+        }
+
+        /* Mejoras para cards más sutiles */
+        .card {
+            border: none;
+            border-radius: 12px; /* Reducido de 15px */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Reducido */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Más rápido */
+        }
+
+        .card:hover {
+            transform: translateY(-3px); /* Reducido de -5px */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12); /* Reducido */
+        }
+
+        /* Mejoras para botones más sutiles */
+        .btn {
+            border-radius: 6px; /* Reducido de 8px */
+            padding: 0.5rem 1.2rem; /* Reducido */
+            font-weight: 500;
+            transition: all 0.2s ease; /* Más rápido */
+        }
+
+        .btn:hover {
+            transform: translateY(-1px); /* Reducido de -2px */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15); /* Reducido */
+        }
+
+        /* Navbar más estrecho en pantallas grandes */
+        @media (min-width: 1200px) {
+            .navbar .container {
+                max-width: 1000px; /* Limitar ancho máximo */
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .navbar .container {
+                max-width: 1200px; /* Un poco más ancho en pantallas muy grandes */
+            }
+        }
+
+        /* Animación de carga más sutil */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        /* Efecto de pulso sutil en el navbar */
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: rgba(255,255,255,0.3);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            transform: scaleX(1);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <!-- Navbar más compacto -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <i class="fas fa-graduation-cap"></i> Gestión de Estudiantes
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'] ?? '', '/') === 0 && $_SERVER['REQUEST_URI'] === '/' ? 'active' : '' ?>" href="/">
                             <i class="fas fa-home"></i> Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/estudiante">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'] ?? '', '/estudiante') !== false ? 'active' : '' ?>" href="/estudiante">
                             <i class="fas fa-users"></i> Estudiantes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/info">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'] ?? '', '/info') !== false ? 'active' : '' ?>" href="/info">
                             <i class="fas fa-info-circle"></i> Información
                         </a>
                     </li>
@@ -40,21 +280,101 @@
         </div>
     </nav>
 
+    <!-- Contenedor principal más compacto -->
     <div class="container">
         <?= $this->content ?>
     </div>
 
-    <footer class="mt-5 py-4 bg-light text-center">
+    <!-- Footer más compacto -->
+    <footer class="mt-4"> <!-- Reducido de mt-5 -->
         <div class="container">
-            <small class="text-muted">
-                Desarrollado con Laminas Framework para INF513-SC - Universidad Autónoma "Gabriel René Moreno"
-            </small>
+            <div class="row">
+                <div class="col-md-6 text-md-start text-center mb-2 mb-md-0"> <!-- Reducido mb-3 -->
+                    <small>
+                        <i class="fas fa-code"></i> Desarrollado con Laminas Framework
+                    </small>
+                </div>
+                <div class="col-md-6 text-md-end text-center">
+                    <small>
+                        <i class="fas fa-university"></i> INF513-SC - Universidad Autónoma "Gabriel René Moreno"
+                    </small>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- Botón scroll to top más pequeño -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <?= $this->headScript() ?>
     <?= $this->inlineScript() ?>
+    
+    <!-- Scripts personalizados optimizados -->
+    <script>
+        // Scroll to top
+        const scrollToTop = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 200) { // Reducido de 300
+                scrollToTop.classList.add('show');
+            } else {
+                scrollToTop.classList.remove('show');
+            }
+        });
+
+        scrollToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animación de carga más sutil
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.3s'; // Reducido de 0.5s
+                document.body.style.opacity = '1';
+            }, 50); // Reducido de 100
+        });
+
+        // Navegación activa optimizada
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const linkPath = new URL(link.href).pathname;
+                if (linkPath === currentPath || (currentPath === '/' && linkPath === '/')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Efecto de hover optimizado en cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)'; // Reducido de -5px
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+
+        // Efecto de pulso en navbar brand
+        document.addEventListener('DOMContentLoaded', () => {
+            const brand = document.querySelector('.navbar-brand');
+            if (brand) {
+                brand.style.position = 'relative';
+            }
+        });
+    </script>
 </body>
 </html>
-

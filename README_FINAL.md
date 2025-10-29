@@ -13,7 +13,7 @@
 
 Sistema web desarrollado con **Laminas Framework** que demuestra las capacidades de este framework modular para PHP. El proyecto implementa una arquitectura MVC robusta y muestra las mejores prácticas en el desarrollo de aplicaciones web empresariales.
 
-## ✨ Características Principales
+## ✨ Características Implementadas
 
 - 🏗️ **Arquitectura MVC** - Separación clara de responsabilidades
 - 📦 **Framework Modular** - Solo instala los componentes necesarios
@@ -21,6 +21,7 @@ Sistema web desarrollado con **Laminas Framework** que demuestra las capacidades
 - 🔒 **Seguridad Integrada** - Escape de HTML y validación de datos
 - 📱 **Diseño Adaptativo** - Compatible con dispositivos móviles
 - ⚡ **Alto Rendimiento** - Optimizado para aplicaciones empresariales
+- 🌍 **Multiplataforma** - Detección automática del sistema operativo
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -34,10 +35,31 @@ Sistema web desarrollado con **Laminas Framework** que demuestra las capacidades
 - **Font Awesome 6.0** - Iconografía
 - **HTML5** - Estructura semántica
 
-### Herramientas de Desarrollo
-- **Composer** - Gestión de dependencias
-- **PSR-4** - Estándar de autoloading
-- **Git** - Control de versiones
+## 🚀 Instalación y Configuración
+
+### Prerrequisitos
+- **PHP 7.4+** (recomendado PHP 8.2+)
+- **Composer** - Gestor de dependencias
+- **Servidor Web** (Apache/Nginx) o PHP Built-in Server
+
+### Instalación Rápida
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/AxelMQ/laminas-exposicion-inf513.git
+cd laminas-exposicion-inf513
+
+# 2. Instalar dependencias
+composer install
+
+# 3. Ejecutar servidor de desarrollo
+php -S localhost:8080 -t public
+```
+
+### Acceso a la Aplicación
+- **Página principal:** http://localhost:8080/
+- **Gestión de estudiantes:** http://localhost:8080/estudiante
+- **Información del sistema:** http://localhost:8080/info
 
 ## 📁 Estructura del Proyecto
 
@@ -45,63 +67,34 @@ Sistema web desarrollado con **Laminas Framework** que demuestra las capacidades
 laminas-exposicion-inf513/
 ├── 📁 config/
 │   └── application.config.php          # Configuración principal
-├── 📁 data/                            # Directorio de datos
 ├── 📁 module/
 │   └── 📁 Application/
 │       ├── 📁 config/
 │       │   └── module.config.php       # Configuración del módulo
 │       ├── 📁 src/
 │       │   └── 📁 Controller/
-│       │       └── IndexController.php # Controlador principal
+│       │       ├── IndexController.php # Controlador principal
+│       │       └── EstudianteController.php # Controlador de estudiantes
 │       └── 📁 view/
-│           └── 📁 application/
-│               └── 📁 index/
-│                   ├── index.phtml     # Vista principal
-│                   └── info.phtml      # Vista de información
+│           ├── 📁 layout/
+│           │   └── layout.phtml        # Layout principal
+│           ├── 📁 application/
+│           │   ├── 📁 index/
+│           │   │   ├── index.phtml     # Vista principal
+│           │   │   └── info.phtml      # Vista de información
+│           │   └── 📁 estudiante/
+│           │       └── index.phtml     # Vista de estudiantes
+│           └── 📁 error/
+│               ├── 404.phtml           # Error 404
+│               └── index.phtml         # Error general
 ├── 📁 public/
 │   └── index.php                       # Punto de entrada
-├── 📁 vendor/                          # Dependencias (Composer)
+├── 📁 vendor/                          # Dependencias (ignorado en Git)
 ├── composer.json                       # Configuración de dependencias
 ├── composer.lock                       # Versiones bloqueadas
-└── README.md                          # Este archivo
+├── .gitignore                          # Archivos ignorados por Git
+└── README.md                           # Este archivo
 ```
-
-## 🚀 Instalación y Configuración
-
-### Prerrequisitos
-
-- **PHP 7.4+** (recomendado PHP 8.2+)
-- **Composer** - Gestor de dependencias
-- **Servidor Web** (Apache/Nginx) o PHP Built-in Server
-
-### Pasos de Instalación
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone [URL_DEL_REPOSITORIO]
-   cd laminas-exposicion-inf513
-   ```
-
-2. **Instalar dependencias**
-   ```bash
-   composer install
-   ```
-
-3. **Configurar permisos** (Linux/Mac)
-   ```bash
-   chmod -R 755 data/
-   chmod -R 755 public/
-   ```
-
-4. **Ejecutar el servidor de desarrollo**
-   ```bash
-   php -S localhost:8080 -t public
-   ```
-
-5. **Acceder a la aplicación**
-   ```
-   http://localhost:8080
-   ```
 
 ## 🎯 Funcionalidades Implementadas
 
@@ -120,23 +113,22 @@ laminas-exposicion-inf513/
 - **Descripción:** Detalles técnicos del sistema
 - **Características:**
   - Información de PHP y Laminas Framework
+  - Detección automática del sistema operativo
   - Arquitectura del proyecto
   - Características técnicas
 
-### 👥 Gestión de Estudiantes (En Desarrollo)
+### 👥 Gestión de Estudiantes
 - **Ruta:** `/estudiante`
-- **Controlador:** `EstudianteController` (por implementar)
-- **Descripción:** CRUD completo para estudiantes
-- **Características planificadas:**
-  - Listado de estudiantes
-  - Formularios de registro
-  - Validación de datos
-  - Búsqueda y filtros
+- **Controlador:** `EstudianteController::indexAction()`
+- **Descripción:** CRUD de estudiantes (interfaz preparada)
+- **Características:**
+  - Listado de estudiantes de ejemplo
+  - Interfaz responsive
+  - Botones de acción (agregar, editar, eliminar)
 
 ## 🔧 Configuración Técnica
 
 ### Dependencias Principales
-
 ```json
 {
     "require": {
@@ -152,14 +144,12 @@ laminas-exposicion-inf513/
 ```
 
 ### Configuración de Módulos
-
 ```php
 // config/application.config.php
 return [
     'modules' => [
-        'Laminas\Router',
-        'Laminas\Validator',
-        'Application',
+        'Laminas\Router',  // Sistema de rutas
+        'Application',     // Módulo personalizado
     ],
     // ... más configuración
 ];
@@ -168,7 +158,6 @@ return [
 ## 🏗️ Arquitectura del Sistema
 
 ### Patrón MVC
-
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │      VIEW       │    │   CONTROLLER    │    │      MODEL      │
@@ -180,7 +169,6 @@ return [
 ```
 
 ### Flujo de Peticiones
-
 1. **Petición HTTP** → `public/index.php`
 2. **Bootstrap** → Carga de configuración y módulos
 3. **Router** → Resolución de rutas
@@ -198,10 +186,12 @@ return [
 - [x] Interfaz responsive con Bootstrap
 - [x] Configuración de rutas
 - [x] Gestión de dependencias con Composer
+- [x] Layout común y templates de error
+- [x] Detección automática del sistema operativo
+- [x] Documentación completa
 
 ### 🚧 En Desarrollo
-- [ ] Controlador de Estudiantes
-- [ ] Modelos de datos
+- [ ] Modelos de datos para estudiantes
 - [ ] Formularios con validación
 - [ ] Integración con base de datos
 - [ ] Sistema de autenticación
@@ -223,7 +213,7 @@ Analizar las características técnicas, arquitectura modular y capacidades de i
 3. ✅ Implementar una aplicación de demostración
 4. 🔄 Comparar con otros frameworks PHP populares
 5. 🔄 Identificar ventajas y desventajas específicas
-6. 🔄 Documentar mejores prácticas de implementación
+6. ✅ Documentar mejores prácticas de implementación
 
 ## 🔍 Análisis Técnico
 
@@ -253,37 +243,32 @@ composer check-platform-reqs
 # Actualizar dependencias
 composer update
 
-# Limpiar caché
+# Limpiar autoloader
 composer dump-autoload
 ```
 
-### Producción
+### Git
 ```bash
-# Instalar solo dependencias de producción
-composer install --no-dev --optimize-autoloader
+# Clonar repositorio
+git clone https://github.com/AxelMQ/laminas-exposicion-inf513.git
 
-# Generar mapa de templates
-php vendor/bin/templatemap_generator.php
+# Instalar dependencias
+composer install
+
+# Ejecutar aplicación
+php -S localhost:8080 -t public
 ```
 
-## 📚 Recursos Adicionales
+## 📚 Documentación Adicional
 
-### Documentación Oficial
-- [Laminas Framework](https://docs.laminas.dev/)
-- [Composer](https://getcomposer.org/doc/)
-- [PHP Standards](https://www.php-fig.org/psr/)
+El proyecto incluye documentación detallada:
 
-### Tutoriales Recomendados
-- [Laminas MVC Quick Start](https://docs.laminas.dev/laminas-mvc/quick-start/)
-- [Laminas Form Guide](https://docs.laminas.dev/laminas-form/)
-- [Laminas DB Guide](https://docs.laminas.dev/laminas-db/)
-
-## 👥 Contribuidores
-
-**Integrantes del Grupo:**
-- Axel A. Mamani Quispia - 218030851
-
-**Docente Responsable:** Ing. Evans
+- `ANALISIS_ESTRUCTURA.md` - Análisis completo de la estructura
+- `COMO_FUNCIONA_MVC.md` - Explicación del patrón MVC
+- `EXPLICACION_ERRORES.md` - Solución de problemas comunes
+- `INSTRUCCIONES_EJECUCION.md` - Guía de instalación y ejecución
+- `MODULOS_VS_BIBLIOTECAS.md` - Diferencia entre módulos y bibliotecas
+- `QUE_SON_LAS_FACTORIES.md` - Explicación de las factories
 
 ## 📄 Licencia
 
@@ -292,19 +277,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 ## 📞 Contacto
 
 Para preguntas sobre este proyecto académico, contactar a:
-- **Email:** [axelmamaniquispia@gmail.com]
+- **GitHub:** [AxelMQ](https://github.com/AxelMQ)
 - **Universidad:** Universidad Autónoma "Gabriel René Moreno"
 - **Materia:** INF513-SC - Exposiciones
-
----
-
-## 🎯 Próximos Pasos
-
-1. **Implementar CRUD de Estudiantes**
-2. **Agregar validación de formularios**
-3. **Integrar base de datos**
-4. **Crear pruebas unitarias**
-5. **Optimizar rendimiento**
 
 ---
 
