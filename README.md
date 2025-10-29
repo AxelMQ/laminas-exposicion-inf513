@@ -103,6 +103,12 @@ laminas-exposicion-inf513/
    http://localhost:8080
    ```
 
+### 📋 Guías de Instalación por Sistema Operativo
+
+- **Windows:** Ver `COMANDOS_POWERSHELL.md`
+- **Linux/Fedora:** Ver `COMANDOS_LINUX_FEDORA.md`
+- **Instrucciones generales:** Ver `INSTRUCCIONES_EJECUCION.md`
+
 ## 🎯 Funcionalidades Implementadas
 
 ### 🏠 Página Principal
