@@ -1,24 +1,26 @@
-# 💻 Comandos para PowerShell (Windows)
+# 💻 Comandos Útiles para Laminas Framework
 
 ## 🚀 Ejecutar el proyecto
 
-### Opción 1: Comando simple
+### Navegar al directorio del proyecto
 ```powershell
-cd "C:\Users\VICTUS\Documents\proyectos\TECNOWEB\Exposicion\laminas\laminas-exposicion-inf513"
+cd ruta/al/proyecto
+```
+
+### Iniciar servidor de desarrollo PHP
+```powershell
 php -S localhost:8080 -t public
 ```
 
-### Opción 2: Usando variables
+### Una sola línea (PowerShell)
 ```powershell
-$proyecto = "C:\Users\VICTUS\Documents\proyectos\TECNOWEB\Exposicion\laminas\laminas-exposicion-inf513"
-cd $proyecto
-php -S localhost:8080 -t public
+cd ruta/al/proyecto; php -S localhost:8080 -t public
 ```
 
-### Opción 3: Una sola línea (sin &&)
-```powershell
-Set-Location "C:\Users\VICTUS\Documents\proyectos\TECNOWEB\Exposicion\laminas\laminas-exposicion-inf513"; php -S localhost:8080 -t public
-```
+### Acceder a la aplicación
+- **Página principal:** http://localhost:8080/
+- **Gestión de estudiantes:** http://localhost:8080/estudiante
+- **Información del sistema:** http://localhost:8080/info
 
 ## 🔧 Comandos de Composer
 
