@@ -1,108 +1,730 @@
 <?php
 $this->headTitle($titulo);
 ?>
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                <div>
-                    <h1><i class="fas fa-users"></i> <?= $this->escapeHtml($titulo) ?></h1>
-                    <p class="mb-0"><?= $this->escapeHtml($subtitulo) ?></p>
-                </div>
-                <a href="/" class="btn btn-light">
-                    <i class="fas fa-home"></i> Inicio
-                </a>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i> <?= $this->escapeHtml($mensaje) ?>
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <a href="/estudiante/agregar" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Agregar Estudiante
+<style>
+    .estudiantes-page {
+        animation: fadeInUp 0.8s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .estudiantes-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        background: white;
+    }
+    
+    .estudiantes-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .estudiantes-header {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        padding: 2rem 1.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .estudiantes-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .estudiantes-header:hover::before {
+        transform: translateX(100%);
+    }
+    
+    .estudiantes-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes titleGlow {
+        from {
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        to {
+            text-shadow: 0 0 30px rgba(255,255,255,0.8);
+        }
+    }
+    
+    .estudiantes-title i {
+        font-size: 2.5rem;
+        animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-8px);
+        }
+        60% {
+            transform: translateY(-4px);
+        }
+    }
+    
+    .estudiantes-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        margin: 0;
+        animation: fadeIn 1s ease-out 0.3s both;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 0.95;
+            transform: translateY(0);
+        }
+    }
+    
+    .back-button {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.2);
+        border: 2px solid rgba(255,255,255,0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .back-button:hover {
+        background: rgba(255,255,255,0.3);
+        border-color: rgba(255,255,255,0.5);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .alert-modern {
+        border: none;
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+        border-left: 4px solid #17a2b8;
+        animation: slideInLeft 0.6s ease-out 0.2s both;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .alert-modern i {
+        color: #17a2b8;
+        font-size: 1.2rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    .action-buttons {
+        animation: slideInUp 0.6s ease-out 0.4s both;
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .btn-modern {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-modern::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-modern:hover::before {
+        left: 100%;
+    }
+    
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .search-container {
+        animation: slideInRight 0.6s ease-out 0.5s both;
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .search-input {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .search-input:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        outline: none;
+    }
+    
+    .search-btn {
+        border: 2px solid #28a745;
+        background: #28a745;
+        color: white;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+        background: #218838;
+        border-color: #1e7e34;
+        transform: translateY(-1px);
+    }
+    
+    .table-container {
+        animation: fadeIn 0.8s ease-out 0.6s both;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .table-modern {
+        margin: 0;
+        background: white;
+    }
+    
+    .table-modern thead {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+    }
+    
+    .table-modern thead th {
+        border: none;
+        padding: 1.25rem 1rem;
+        font-weight: 600;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+    }
+    
+    .table-modern tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .table-modern tbody tr:hover {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        transform: scale(1.01);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .table-modern tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border: none;
+    }
+    
+    .badge-modern {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-group-modern {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-action {
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .btn-edit {
+        background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+        color: white;
+    }
+    
+    .btn-edit:hover {
+        background: linear-gradient(135deg, #e0a800 0%, #e67e00 100%);
+        color: white;
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+    }
+    
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+        color: white;
+    }
+    
+    .features-section {
+        animation: slideInUp 0.8s ease-out 0.8s both;
+        margin-top: 2rem;
+    }
+    
+    .features-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .features-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .features-header {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        padding: 1.5rem;
+        color: white;
+    }
+    
+    .features-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .features-title i {
+        font-size: 1.5rem;
+        animation: rotate 3s linear infinite;
+    }
+    
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .features-body {
+        padding: 1.5rem;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+    }
+    
+    .feature-item:last-child {
+        border-bottom: none;
+    }
+    
+    .feature-item:nth-child(1) { animation-delay: 0.1s; }
+    .feature-item:nth-child(2) { animation-delay: 0.2s; }
+    .feature-item:nth-child(3) { animation-delay: 0.3s; }
+    .feature-item:nth-child(4) { animation-delay: 0.4s; }
+    .feature-item:nth-child(5) { animation-delay: 0.5s; }
+    .feature-item:nth-child(6) { animation-delay: 0.6s; }
+    
+    .feature-item:hover {
+        padding-left: 1rem;
+        background: rgba(23, 162, 184, 0.1);
+        border-radius: 8px;
+    }
+    
+    .feature-item i {
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .feature-item span {
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .footer-section {
+        animation: fadeIn 1s ease-out 1s both;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+    }
+    
+    .footer-text {
+        margin: 0;
+        font-size: 1rem;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .footer-text i {
+        color: #28a745;
+        animation: pulse 2s infinite;
+    }
+    
+    @media (max-width: 768px) {
+        .estudiantes-title {
+            font-size: 1.8rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .estudiantes-title i {
+            font-size: 2rem;
+        }
+        
+        .estudiantes-subtitle {
+            font-size: 1rem;
+        }
+        
+        .btn-group-modern {
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .btn-action {
+            width: 100%;
+        }
+    }
+    
+    /* Efectos de entrada escalonada para filas de tabla */
+    .table-modern tbody tr {
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+    }
+    
+    .table-modern tbody tr:nth-child(1) { animation-delay: 0.1s; }
+    .table-modern tbody tr:nth-child(2) { animation-delay: 0.2s; }
+    .table-modern tbody tr:nth-child(3) { animation-delay: 0.3s; }
+    .table-modern tbody tr:nth-child(4) { animation-delay: 0.4s; }
+    .table-modern tbody tr:nth-child(5) { animation-delay: 0.5s; }
+    .table-modern tbody tr:nth-child(6) { animation-delay: 0.6s; }
+</style>
+
+<div class="estudiantes-page">
+    <div class="row">
+        <div class="col-12">
+            <div class="card estudiantes-card">
+                <!-- Header mejorado -->
+                <div class="estudiantes-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="estudiantes-title">
+                                <i class="fas fa-users"></i>
+                                <?= $this->escapeHtml($titulo) ?>
+                            </h1>
+                            <p class="estudiantes-subtitle"><?= $this->escapeHtml($subtitulo) ?></p>
+                        </div>
+                        <a href="/" class="back-button">
+                            <i class="fas fa-home"></i>
+                            Inicio
                         </a>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar estudiantes...">
-                            <button class="btn btn-outline-secondary" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                </div>
+                
+                <!-- Body mejorado -->
+                <div class="card-body p-4">
+                    <!-- Alert moderno -->
+                    <div class="alert alert-modern">
+                        <i class="fas fa-info-circle"></i>
+                        <?= $this->escapeHtml($mensaje) ?>
+                    </div>
+                    
+                    <!-- Botones de acción -->
+                    <div class="action-buttons row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <a href="/estudiante/agregar" class="btn btn-primary btn-modern">
+                                <i class="fas fa-plus"></i>
+                                Agregar Estudiante
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="search-container input-group">
+                                <input type="text" class="form-control search-input" placeholder="Buscar estudiantes...">
+                                <button class="btn search-btn" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Carrera</th>
-                                <th>Semestre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($estudiantes as $estudiante): ?>
-                            <tr>
-                                <td><?= $this->escapeHtml($estudiante['id']) ?></td>
-                                <td><?= $this->escapeHtml($estudiante['nombre']) ?></td>
-                                <td><?= $this->escapeHtml($estudiante['carrera']) ?></td>
-                                <td>
-                                    <span class="badge bg-primary"><?= $this->escapeHtml($estudiante['semestre']) ?></span>
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a href="/estudiante/editar/<?= $estudiante['id'] ?>" 
-                                           class="btn btn-sm btn-warning" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="/estudiante/eliminar/<?= $estudiante['id'] ?>" 
-                                           class="btn btn-sm btn-danger" title="Eliminar">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="card border-info">
-                            <div class="card-header bg-info text-white">
-                                <h5><i class="fas fa-cogs"></i> Funcionalidades Planificadas</h5>
+                    
+                    <!-- Tabla mejorada -->
+                    <div class="table-container">
+                        <table class="table table-modern">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Carrera</th>
+                                    <th>Semestre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($estudiantes as $estudiante): ?>
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary badge-modern">
+                                            #<?= $this->escapeHtml($estudiante['id']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong><?= $this->escapeHtml($estudiante['nombre']) ?></strong>
+                                    </td>
+                                    <td><?= $this->escapeHtml($estudiante['carrera']) ?></td>
+                                    <td>
+                                        <span class="badge bg-primary badge-modern">
+                                            <?= $this->escapeHtml($estudiante['semestre']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-modern">
+                                            <a href="/estudiante/editar/<?= $estudiante['id'] ?>" 
+                                               class="btn-action btn-edit" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="/estudiante/eliminar/<?= $estudiante['id'] ?>" 
+                                               class="btn-action btn-delete" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Sección de funcionalidades -->
+                    <div class="features-section">
+                        <div class="card features-card">
+                            <div class="features-header">
+                                <h5 class="features-title">
+                                    <i class="fas fa-cogs"></i>
+                                    Funcionalidades Planificadas
+                                </h5>
                             </div>
-                            <div class="card-body">
+                            <div class="features-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <ul class="list-unstyled">
-                                            <li><i class="fas fa-check text-success"></i> Listado de estudiantes</li>
-                                            <li><i class="fas fa-plus text-primary"></i> Formulario de registro</li>
-                                            <li><i class="fas fa-edit text-warning"></i> Edición de datos</li>
+                                        <ul class="feature-list">
+                                            <li class="feature-item">
+                                                <i class="fas fa-check text-success"></i>
+                                                <span>Listado de estudiantes</span>
+                                            </li>
+                                            <li class="feature-item">
+                                                <i class="fas fa-plus text-primary"></i>
+                                                <span>Formulario de registro</span>
+                                            </li>
+                                            <li class="feature-item">
+                                                <i class="fas fa-edit text-warning"></i>
+                                                <span>Edición de datos</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
-                                        <ul class="list-unstyled">
-                                            <li><i class="fas fa-trash text-danger"></i> Eliminación de registros</li>
-                                            <li><i class="fas fa-search text-info"></i> Búsqueda y filtros</li>
-                                            <li><i class="fas fa-database text-secondary"></i> Integración con BD</li>
+                                        <ul class="feature-list">
+                                            <li class="feature-item">
+                                                <i class="fas fa-trash text-danger"></i>
+                                                <span>Eliminación de registros</span>
+                                            </li>
+                                            <li class="feature-item">
+                                                <i class="fas fa-search text-info"></i>
+                                                <span>Búsqueda y filtros</span>
+                                            </li>
+                                            <li class="feature-item">
+                                                <i class="fas fa-database text-secondary"></i>
+                                                <span>Integración con BD</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Footer mejorado -->
+                    <div class="footer-section">
+                        <p class="footer-text">
+                            <i class="fas fa-graduation-cap"></i>
+                            Sistema de Gestión de Estudiantes - Laminas Framework
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="card-footer text-center text-muted">
-                <small>Sistema de Gestión de Estudiantes - Laminas Framework</small>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Efecto de búsqueda
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        const tableRows = document.querySelectorAll('.table-modern tbody tr');
+        
+        function filterTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    row.style.animation = 'fadeInUp 0.3s ease-out';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        searchInput.addEventListener('input', filterTable);
+        searchBtn.addEventListener('click', filterTable);
+    });
+    
+    // Efecto hover mejorado en filas de tabla
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableRows = document.querySelectorAll('.table-modern tbody tr');
+        
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    });
+    
+    // Animación de entrada escalonada para elementos
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.feature-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        });
+        
+        elements.forEach(element => {
+            element.style.animationPlayState = 'paused';
+            observer.observe(element);
+        });
+    });
+</script>
