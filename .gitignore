@@ -1,0 +1,68 @@
+# Laminas Framework - Archivos a ignorar
+
+# Dependencias de Composer
+/vendor/
+composer.phar
+
+# Archivos de configuración local
+config/autoload/local.php
+config/autoload/*.local.php
+
+# Archivos de caché
+/data/cache/
+/data/log/
+/data/session/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de PHP
+*.php~
+*.php.bak
+
+# Archivos de configuración sensible
+.env
+.env.local
+.env.production
+
+# Archivos de base de datos
+*.sqlite
+*.db
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de test
+/tests/_output/
+/tests/_support/_generated/
+
+# Archivos de documentación generada
+/docs/build/
+/docs/site/
+
+# Archivos de deployment
+/deploy/
+/build/
+
+# Archivos de configuración de servidor
+.htaccess.local
+nginx.conf.local

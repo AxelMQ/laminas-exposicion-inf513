@@ -1,0 +1,23 @@
+{
+    "name": "inf513-sc/laminas-exposicion",
+    "description": "Sistema de Gestion de Estudiantes - Laminas Framework - INF513-SC",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "laminas/laminas-mvc": "^3.7",
+        "laminas/laminas-form": "^3.0",
+        "laminas/laminas-db": "^2.15",
+        "laminas/laminas-validator": "^2.16",
+        "laminas/laminas-inputfilter": "^2.17",
+        "laminas/laminas-router": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Application\\": "module/Application/src/"
+        }
+    },
+    "scripts": {
+        "serve": "php -S 0.0.0.0:8080 -t public"
+    }
+}

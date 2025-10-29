@@ -1,0 +1,33 @@
+<?php
+$this->headTitle('Error del Sistema');
+?>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3><i class="fas fa-exclamation-triangle"></i> Error del Sistema</h3>
+            </div>
+            <div class="card-body">
+                <?php if (isset($this->exception) && $this->exception instanceof Exception): ?>
+                    <h4><?= $this->escapeHtml($this->exception->getMessage()) ?></h4>
+                    <?php if ($this->display_exceptions): ?>
+                        <hr>
+                        <h5>Detalles del Error:</h5>
+                        <pre class="bg-light p-3 rounded"><?= $this->escapeHtml($this->exception->getTraceAsString()) ?></pre>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <p>Ha ocurrido un error inesperado en el sistema.</p>
+                <?php endif; ?>
+                <div class="mt-4">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Volver al Inicio
+                    </a>
+                    <button onclick="history.back()" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver Atrás
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
